@@ -3,26 +3,76 @@
   margin: 0;
 }
 #content {
-  color: aquamarine;
-  background-color: black;
   height: 100vh;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
+  background-color: rgb(48, 48, 48);
+}
+
+#game-title {
+  font-size: 3rem;
 }
 
 #gameboards {
-  background-color: blue;
-  height: 20em;
-  width: 55em;
   display: flex;
-  justify-content: center;
   gap: 1em;
-  align-items: center;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.board-container {
+  display: flex;
+  flex-direction: column;
 }
 
 .gameboard {
-  background-color: aliceblue;
+  background-color: grey;
   height: 18rem;
   width: 18rem;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  border: 3px;
+  border-style: solid;
+  border-color: grey;
+}
+.label-col {
+  display: flex;
+  flex-direction: column;
+  height: 95%;
+}
+.label-row {
+  display: flex;
+  background-color: rgb(48, 48, 48);
+}
+.label-cell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-grow: 1;
+  font-size: 1em;
+  width: 100%;
+}
+
+.row {
+  display: flex;
+  flex-grow: 1;
+  gap: 3px;
+  height: 100%;
+  width: 100%;
+}
+
+.cell {
+  display: flex;
+  background-color: rgb(39, 39, 39);
+  height: 100%;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+}
+
+.cell:hover {
+  background-color: rgb(70, 70, 70);
 }
