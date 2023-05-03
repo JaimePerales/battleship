@@ -17,10 +17,10 @@ class Gameboard {
    * @param {*} startLocation starting cell of ship.
    */
   addShip(shipName, length, axis, startLocation) {
-    const newShip = new Ship(length);
+    const newShip = new Ship(length, shipName);
 
     // Horizontal ship placement
-    if (axis === 'x') {
+    if (axis === 'y') {
       if (newShip.length + startLocation[0] <= 9) {
         // Checks if all cells are available for ship
         for (let i = 0; i < newShip.length; i += 1) {
@@ -35,11 +35,11 @@ class Gameboard {
           this.board[startLocation[0] + i][startLocation[1]] = shipName;
         }
         // Adds ship to borad's fleet
-        this.fleet[shipName] = newShip;
+        this.fleet.push(newShip);
       }
 
       // Vertical ship placement
-    } else if (axis === 'y') {
+    } else if (axis === 'x') {
       if (newShip.length + startLocation[1] <= 9) {
         // Checks if all cells are available for ship
         for (let i = 0; i < newShip.length; i += 1) {
@@ -54,18 +54,24 @@ class Gameboard {
           this.board[startLocation[0]][startLocation[1] + i] = shipName;
         }
         // Adds ship to borad's fleet
-        this.fleet[shipName] = newShip;
+        this.fleet.push(newShip);
       }
     }
   }
 
   receiveAttack(coordinates) {
-    if (this.board[coordinates[0]][coordinates[1]] !== 'hit') {
+    if (
+      this.board[coordinates[0]][coordinates[1]] !== 'hit' &&
+      this.board[coordinates[0]][coordinates[1]] !== 'miss'
+    ) {
       if (this.board[coordinates[0]][coordinates[1]] === undefined) {
         this.board[coordinates[0]][coordinates[1]] = 'miss';
       } else {
-        this.fleet[this.board[coordinates[0]][coordinates[1]]].hit();
+        const key = this.board[coordinates[0]][coordinates[1]];
+        const hitShip = this.fleet.filter((ship) => ship.name === key);
+        hitShip[0].hit();
         this.board[coordinates[0]][coordinates[1]] = 'hit';
+        console.table(hitShip);
       }
     }
   }

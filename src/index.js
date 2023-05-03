@@ -1,4 +1,5 @@
-import setUpDisplay from './display';
+import Game from './game';
 import './styles.css';
 
-setUpDisplay();
+const game = new Game();
+game.start();

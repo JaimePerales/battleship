@@ -17,6 +17,9 @@
     "ecmaVersion": "latest"
   },
   "rules": {
-    "comma-dangle": "off"
+    "comma-dangle": "off",
+    "no-param-reassign": "off",
+    "operator-linebreak": "off",
+    "no-use-before-define": "off"
   }
 }
