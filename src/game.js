@@ -10,6 +10,9 @@ class Game {
   }
 
   start() {
+    window.removeEventListener('keypress', restart);
+    window.game = this;
+
     this.player.enemy = this.enemy;
     this.enemy.enemy = this.player;
     this.player.gameboard = randomBoard();
@@ -18,7 +21,7 @@ class Game {
     displayBoards(this.player, this.enemy);
     const enemyCells = document.querySelectorAll('.enemy-cell');
     enemyCells.forEach((cell) => {
-      cell.addEventListener('click', playerTurn);
+      cell.addEventListener('mousedown', playerTurn);
       cell.game = this;
     });
   }
@@ -49,10 +52,21 @@ function randomBoard() {
 
 function playerTurn() {
   if (this.game.currentPlayer === this.game.player) {
-    this.game.currentPlayer.sendAttack([
-      this.classList[1][1],
-      this.classList[1][3],
-    ]);
+    if (
+      this.game.enemy.gameboard.board[this.classList[1][1]][
+        this.classList[1][3]
+      ] !== 'hit' &&
+      this.game.enemy.gameboard.board[this.classList[1][1]][
+        this.classList[1][3]
+      ] !== 'miss'
+    ) {
+      this.game.currentPlayer.sendAttack([
+        this.classList[1][1],
+        this.classList[1][3],
+      ]);
+    } else {
+      return;
+    }
     displayBoards(this.game.player, this.game.enemy);
 
     this.game.currentPlayer = this.game.enemy;
@@ -71,13 +85,30 @@ function playerTurn() {
     }
     this.game.currentPlayer = this.game.player;
   }
+  const gameTitle = document.querySelector('#game-title');
 
   if (this.game.player.gameboard.allSunk()) {
-    alert('ENEMY WINS!');
-    this.game.start();
+    gameTitle.textContent = 'ENEMY WINS!';
+    // this.game.start();
+    const enemyCells = document.querySelectorAll('.enemy-cell');
+    enemyCells.forEach((cell) => {
+      const newCell = cell.cloneNode(true);
+      cell.parentNode.replaceChild(newCell, cell);
+    });
+    window.addEventListener('keypress', restart);
+    document.querySelector('#restart-text').textContent =
+      'Press enter to restart...';
   } else if (this.game.enemy.gameboard.allSunk()) {
-    alert('PLAYER WINS!');
-    this.game.start();
+    gameTitle.textContent = 'PLAYER WINS!';
+    const enemyCells = document.querySelectorAll('.enemy-cell');
+    enemyCells.forEach((cell) => {
+      const newCell = cell.cloneNode(true);
+      cell.parentNode.replaceChild(newCell, cell);
+    });
+    window.addEventListener('keypress', restart);
+    document.querySelector('#restart-text').textContent =
+      'Press enter to restart...';
+    // this.game.start();
   }
 }
 /**
@@ -85,4 +116,11 @@ function playerTurn() {
  * board. When cell is clicked
  */
 
+function restart(e) {
+  if (e.key === 'Enter') {
+    e.preventDefault(); // Ensure it is only this code that runs
+
+    this.game.start();
+  }
+}
 export default Game;

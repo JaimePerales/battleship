@@ -43,6 +43,10 @@ function setUpDisplay() {
 
   playerGameBoardContainer.appendChild(playerLabelRow);
   enemyGameBoardContainer.appendChild(enemyLablelRow);
+
+  const restarttext = document.createElement('h3');
+  restarttext.id = 'restart-text';
+  content.appendChild(restarttext);
 }
 
 // Displays players boards
